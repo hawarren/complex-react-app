@@ -1,5 +1,17 @@
 {
   "dependencies": {
-    "jshint": "^2.13.6"
-  }
+    "jshint": "^2.13.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "name": "complex-react-app",
+  "version": "1.0.0",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
