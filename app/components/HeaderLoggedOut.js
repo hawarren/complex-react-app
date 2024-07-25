@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Axios from "axios"
 
 function HeaderLoggedOut(props) {
-  const [username, setUserName] = useState()
+  const [username, setUsername] = useState()
   const [password, setPassword] = useState()
 
   async function handleSubmit(e) {
@@ -10,22 +10,23 @@ function HeaderLoggedOut(props) {
     try {
       const response = await Axios.post("http://localhost:8080/login", { username, password })
       if (response.data) {
-        localStorage.setItem("ComplexAppToken", response.data.token)
-        localStorage.setItem("ComplexAppUsername", response.data.username)
-        localStorage.setItem("ComplexAppvatar", response.data.avatar)
+        localStorage.setItem("complexappToken", response.data.token)
+        localStorage.setItem("complexappUsername", response.data.username)
+        localStorage.setItem("complexappAvatar", response.data.avatar)
         props.setLoggedIn(true)
       } else {
         console.log("Incorrect username / password.")
       }
     } catch (e) {
-      console.log("there was a problem")
+      console.log("There was a problem.")
     }
   }
+
   return (
     <form onSubmit={handleSubmit} className="mb-0 pt-2 pt-md-0">
       <div className="row align-items-center">
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-          <input onChange={e => setUserName(e.target.value)} name="username" className="form-control form-control-sm input-dark" type="text" placeholder="Username" autoComplete="off" />
+          <input onChange={e => setUsername(e.target.value)} name="username" className="form-control form-control-sm input-dark" type="text" placeholder="Username" autoComplete="off" />
         </div>
         <div className="col-md mr-0 pr-md-0 mb-3 mb-md-0">
           <input onChange={e => setPassword(e.target.value)} name="password" className="form-control form-control-sm input-dark" type="password" placeholder="Password" />
