@@ -11,11 +11,11 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 
 function Main() {
-  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("ComplexAppToken")))
+  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("complexappToken")))
 
   return (
     <BrowserRouter>
-      <Header loggedin={loggedIn} setLoggedIn={setLoggedIn} />
+      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
       <Routes>
         <Route path="/" element={loggedIn ? <Home /> : <HomeGuest />} />
         <Route path="/about-us" element={<About />} />

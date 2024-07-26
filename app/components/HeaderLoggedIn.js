@@ -3,10 +3,11 @@ import React, { useEffect } from "react"
 function HeaderLoggedIn(props) {
   function handleLogout() {
     props.setLoggedIn(false)
-    localStorage.removeItem("ComplexAppToken")
-    localStorage.removeItem("ComplexAppUsername")
+    localStorage.removeItem("complexappToken")
+    localStorage.removeItem("complexappUsername")
     localStorage.removeItem("ComplexAppvatar")
   }
+
   return (
     <div className="flex-row my-3 my-md-0">
       <a href="#" className="text-white mr-2 header-search-icon">
