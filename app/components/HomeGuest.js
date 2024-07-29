@@ -10,7 +10,7 @@ function HomeGuest() {
     e.preventDefault()
     try {
       console.log("Attempting to create a user...")
-      Axios.post("http://localhost:8080/register", { username, email, password })
+      Axios.post("/register", { username, email, password })
       console.log("User was created succesfully.")
     } catch (e) {
       console.log(e.response.data)
