@@ -15,7 +15,7 @@ function Header(props) {
             ComplexApp{""}
           </Link>
         </h4>
-        {appState.loggedin ? <HeaderLoggedIn /> : <HeaderLoggedOut />}
+        {appState.loggedIn ? <HeaderLoggedIn /> : <HeaderLoggedOut />}
       </div>
     </header>
   )
