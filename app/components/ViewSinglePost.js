@@ -3,6 +3,7 @@ import Page from "./Page"
 import Axios from "axios"
 import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
+import ReactMarkDown from "react-markdown"
 
 function ViewSinglePost() {
   const [isLoading, setIsLoading] = useState(true)
@@ -10,18 +11,22 @@ function ViewSinglePost() {
   const { id } = useParams()
 
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source()
     async function fetchPost() {
       try {
-        const response = await Axios.get(`/post/${id}`)
+        const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token })
         console.log("fetchPost: returned the following ")
         console.log(response.data)
         setPost(response.data)
         setIsLoading(false)
       } catch (e) {
-        console.log("There was an error fetching a post")
+        console.log("There was an error fetching a post, or the request was cancelled.")
       }
     }
     fetchPost()
+    return () => {
+      ourRequest.cancel()
+    }
   }, [])
 
   if (isLoading)
@@ -54,7 +59,9 @@ function ViewSinglePost() {
         Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {dateFormatted}
       </p>
 
-      <div className="body-content">{post.body}</div>
+      <div className="body-content">
+        <ReactMarkDown children={post.body} allowedElements={["p", "br", "strong", "em", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol"]} />
+      </div>
     </Page>
   )
 }

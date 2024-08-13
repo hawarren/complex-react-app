@@ -16,9 +16,11 @@ function Profile() {
   })
 
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source()
+
     async function fetchData() {
       try {
-        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token })
+        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: ourRequest.token })
         console.log(`fetchData: returned the following ${response.data}`)
         setProfileData(response.data)
         console.log(response.data)
@@ -28,6 +30,9 @@ function Profile() {
       }
     }
     fetchData()
+    return () => {
+      ourRequest.cancel()
+    }
   }, [username, appState.user.token])
   return (
     <Page title="Profile Screen">
