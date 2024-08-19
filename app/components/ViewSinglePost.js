@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkDown from "react-markdown"
 import { Tooltip as ReactTooltip } from "react-tooltip"
+import NotFound from "./NotFound"
 
 function ViewSinglePost() {
   const [isLoading, setIsLoading] = useState(true)
@@ -29,6 +30,7 @@ function ViewSinglePost() {
       ourRequest.cancel()
     }
   }, [])
+  if (!isLoading && !post) return <NotFound />
 
   if (isLoading)
     return (
