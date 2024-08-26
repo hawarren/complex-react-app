@@ -1,18 +1,59 @@
 import React, { useEffect, useContext } from "react"
+import { useImmer } from "use-immer"
 import DispatchContext from "../DispatchContext"
-
+import Axios from "axios"
+//3:39
 function Search() {
   const appDispatch = useContext(DispatchContext)
+  const [state, setState] = useImmer({
+    searchTerm: "",
+    results: [],
+    show: "neither",
+    requestCount: 0
+  })
+
   useEffect(() => {
     document.addEventListener("keyup", searchKeyPressHandler)
     return () => document.removeEventListener("keyup", searchKeyPressHandler)
   }, [])
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setState(draft => {
+        draft.requestCount++
+      })
+    }, 3000)
+    return () => clearTimeout(delay)
+  }, [state.searchTerm])
+
+  useEffect(() => {
+    if (state.requestCount) {
+      const ourRequest = Axios.CancelToken.source()
+
+      async function fetchResults() {
+        try {
+          const response = await Axios.post("/search", { searchTerm: state.searchTerm }, { cancelToken: ourRequest.token })
+          console.log("response data" + response.data)
+        } catch (e) {
+          console.log("There was a problem, or the request was cancelled.")
+        }
+      }
+      fetchResults()
+      return () => ourRequest.cancel()
+    }
+  }, [state.requestCount])
 
   function searchKeyPressHandler(e) {
     if (e.keyCode == 27) {
       appDispatch({ type: "closeSearch" })
       console.log("appDispatch called to close search")
     } else console.log("key pressed: ", e.keyCode)
+  }
+  function handleInput(e) {
+    const value = e.target.value
+    setState(draft => {
+      draft.searchTerm = value
+    })
   }
 
   return (
@@ -22,7 +63,7 @@ function Search() {
           <label htmlFor="live-search-field" className="search-overlay-icon">
             <i className="fas fa-search"></i>
           </label>
-          <input autoFocus type="text" autoComplete="off" id="live-search-field" className="live-search-field" placeholder="What are you interested in?" />
+          <input onChange={handleInput} autoFocus type="text" autoComplete="off" id="live-search-field" className="live-search-field" placeholder="What are you interested in?" />
           <span onClick={() => appDispatch({ type: "closeSearch" })} className="close-live-search">
             <i className="fas fa-times-circle"></i>
           </span>
