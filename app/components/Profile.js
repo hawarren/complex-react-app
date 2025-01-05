@@ -5,8 +5,7 @@ import { useParams, NavLink, Routes, Route } from "react-router-dom"
 import Axios from "axios"
 import StateContext from "../StateContext"
 import ProfilePosts from "./ProfilePosts"
-import ProfileFollowers from "./ProfileFollowers"
-import ProfileFollowing from "./ProfileFollowing"
+import ProfileFollow from "./ProfileFollow"
 
 function Profile() {
   const { username } = useParams()
@@ -142,8 +141,8 @@ function Profile() {
       </div>
       <Routes>
         <Route path="" element={<ProfilePosts />} />
-        <Route path="followers" element={<ProfileFollowers />} />
-        <Route path="following" element={<ProfileFollowing />} />
+        <Route path="followers" element={<ProfileFollow action="followers" count={state.profileData.counts.followerCount} isSameUser={appState.user.username != state.profileData.profileUsername} />} />
+        <Route path="following" element={<ProfileFollow action="following" count={state.profileData.counts.followingCount} isSameUser={appState.user.username != state.profileData.profileUsername} />} />
       </Routes>
     </Page>
   )
