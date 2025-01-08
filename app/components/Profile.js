@@ -141,8 +141,8 @@ function Profile() {
       </div>
       <Routes>
         <Route path="" element={<ProfilePosts />} />
-        <Route path="followers" element={<ProfileFollow action="followers" count={state.profileData.counts.followerCount} isSameUser={appState.user.username != state.profileData.profileUsername} />} />
-        <Route path="following" element={<ProfileFollow action="following" count={state.profileData.counts.followingCount} isSameUser={appState.user.username != state.profileData.profileUsername} />} />
+        <Route path="followers" element={<ProfileFollow action="followers" count={state.profileData.counts.followerCount} isSameUser={appState.user.username == state.profileData.profileUsername} />} />
+        <Route path="following" element={<ProfileFollow action="following" count={state.profileData.counts.followingCount} isSameUser={appState.user.username == state.profileData.profileUsername} />} />
       </Routes>
     </Page>
   )

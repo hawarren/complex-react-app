@@ -27,15 +27,20 @@ function ProfileFollow(props) {
     return () => {
       ourRequest.cancel()
     }
-  }, [])
+  }, [props.action])
 
   if (isLoading) return <LoadingDotsIcon />
   //if no followers, return a message saying you have no followers yet.
-  console.log(`is same user ${props.isSameUser}`)
-  if (props.counts === 0 || props.isSameUser) return <div>You have no {props.action} yet</div>
-  if (props.counts === 0 || !props.isSameUser) return <div>They have no {props.action} yet</div>
-  //if no following, return a message saying you are not following anyone yet.
-  //if it's the followers page, return a message saying this user has no followers yet.
+  const pronoun = props.isSameUser ? "You" : "They"
+  if (props.count === 0) {
+    console.log(`is same user ${props.isSameUser}`)
+    return (
+      <div>
+        {pronoun} have no {props.action} yet. Search for somoene to follow!
+      </div>
+    )
+  }
+
   return (
     <div className="list-group">
       {posts.map((follower, index) => {
